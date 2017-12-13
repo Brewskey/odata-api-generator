@@ -18,6 +18,6 @@ export default class Member implements ITypeGenerator {
   }
 
   generateFlowType(): string {
-    return `\t\t${this.name}: ${this.value};\n`;
+    return `    ${this.name}: ${this.value};\n`;
   }
 }

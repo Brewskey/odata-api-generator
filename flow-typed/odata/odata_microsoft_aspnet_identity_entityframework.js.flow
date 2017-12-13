@@ -1,20 +1,20 @@
 // @flow
 
 declare module 'odata_microsoft_aspnet_identity_entityframework' {
-	declare export type IdentityUserClaim = {|
-		claimType: string,
-		claimValue: string,
-		id: number,
-		userId: string,
-	|};
+  declare export type IdentityUserClaim = {|
+    claimType: string,
+    claimValue: string,
+    id: number,
+    userId: string,
+  |};
 
-	declare export type IdentityUserRole = {|
-		roleId: string,
-		userId: string,
-	|};
-	declare export type IdentityUserLogin = {|
-		loginProvider: string,
-		providerKey: string,
-		userId: string,
-	|};
+  declare export type IdentityUserRole = {|
+    roleId: string,
+    userId: string,
+  |};
+  declare export type IdentityUserLogin = {|
+    loginProvider: string,
+    providerKey: string,
+    userId: string,
+  |};
 }

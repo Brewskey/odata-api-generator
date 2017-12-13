@@ -62,6 +62,6 @@ export default class Property implements ITypeGenerator {
   }
 
   generateFlowType(): string {
-    return `\t\t${this.name}: ${this.isNullable ? '?' : ''}${this.flowType},`;
+    return `    ${this.name}: ${this.isNullable ? '?' : ''}${this.flowType},`;
   }
 }

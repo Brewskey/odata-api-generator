@@ -25,7 +25,7 @@ export default class EntityType implements ITypeGenerator {
   }
 
   generateFlowType(): string {
-    let output = `\tdeclare export type ${this._json.$.Name} = {|\n`;
+    let output = `  declare export type ${this._json.$.Name} = {|\n`;
     const definitions = [
       ...this._properties.map(item => [item.name, item.generateFlowType()]),
       ...this._navigationProperties.map(item => [
@@ -38,6 +38,6 @@ export default class EntityType implements ITypeGenerator {
       output,
     );
 
-    return output + '\t|};';
+    return output + '  |};';
   }
 }

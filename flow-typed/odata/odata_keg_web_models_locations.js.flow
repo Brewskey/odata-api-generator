@@ -1,22 +1,22 @@
 // @flow
 
 declare module 'odata_keg_web_models_locations' {
-	declare export type NearbyLocation = {|
-		id: number,
-		name: string,
-		summary: string,
-		taps: Array<NearbyTap>,
-	|};
-	declare export type NearbyTap = {|
-		currentKeg: NearbyCurrentKeg,
-		deviceID: number,
-		id: number,
-		name: string,
-	|};
-	declare export type NearbyCurrentKeg = {|
-		beverageName: string,
-		id: number,
-		maxOunces: number,
-		ounces: number,
-	|};
+  declare export type NearbyLocation = {|
+    id: number,
+    name: string,
+    summary: string,
+    taps: Array<NearbyTap>,
+  |};
+  declare export type NearbyTap = {|
+    currentKeg: NearbyCurrentKeg,
+    deviceID: number,
+    id: number,
+    name: string,
+  |};
+  declare export type NearbyCurrentKeg = {|
+    beverageName: string,
+    id: number,
+    maxOunces: number,
+    ounces: number,
+  |};
 }

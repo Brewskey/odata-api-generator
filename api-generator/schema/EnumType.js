@@ -20,13 +20,13 @@ export default class EnumType implements ITypeGenerator {
   }
 
   generateFlowType(): string {
-    let output = `\tdeclare type ${this._json.$.Name} = {|\n`;
+    let output = `  declare type ${this._json.$.Name} = {|\n`;
 
     output = this._members.reduce(
       (current, item) => current + item.generateFlowType(),
       output,
     );
 
-    return output + '\t|};';
+    return output + '  |};';
   }
 }

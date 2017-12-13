@@ -1,8 +1,8 @@
 // @flow
 
 declare module 'odata_keg_web_models' {
-	declare export type ChartPoint_1OfInt32 = {|
-		keys: Array<number>,
-		value: number,
-	|};
+  declare export type ChartPoint_1OfInt32 = {|
+    keys: Array<number>,
+    value: number,
+  |};
 }

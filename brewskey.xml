@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:DataServices>
+    <Schema Namespace="Keg.Repository.Models" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Organization">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="permissions" Type="Collection(Keg.Repository.Models.Permission)" />
+        <NavigationProperty Name="locations" Type="Collection(Keg.Repository.Models.Location)" />
+        <NavigationProperty Name="devices" Type="Collection(Keg.Repository.Models.Device)" />
+        <NavigationProperty Name="taps" Type="Collection(Keg.Repository.Models.Tap)" />
+        <NavigationProperty Name="kegs" Type="Collection(Keg.Repository.Models.Keg)" />
+        <NavigationProperty Name="pours" Type="Collection(Keg.Repository.Models.Pour)" />
+      </EntityType>
+      <EntityType Name="Account">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="fullName" Type="Edm.String" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="banned" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="email" Type="Edm.String" />
+        <Property Name="emailConfirmed" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="phoneNumber" Type="Edm.String" />
+        <Property Name="phoneNumberConfirmed" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="twoFactorEnabled" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="lockoutEndDateUtc" Type="Edm.DateTimeOffset" />
+        <Property Name="lockoutEnabled" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="accessFailedCount" Type="Edm.Int32" Nullable="false" />
+        <Property Name="roles" Type="Collection(Microsoft.AspNet.Identity.EntityFramework.IdentityUserRole)" />
+        <Property Name="logins" Type="Collection(Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin)" />
+        <Property Name="id" Type="Edm.String" Nullable="false" />
+        <Property Name="userName" Type="Edm.String" />
+        <NavigationProperty Name="achievements" Type="Collection(Keg.Repository.Models.Achievement)" />
+        <NavigationProperty Name="permissions" Type="Collection(Keg.Repository.Models.Permission)" />
+        <NavigationProperty Name="validPermissions" Type="Collection(Keg.Repository.Models.Permission)" />
+        <NavigationProperty Name="authorizatons" Type="Collection(Keg.Repository.Models.Authorization)" />
+        <NavigationProperty Name="pours" Type="Collection(Keg.Repository.Models.Pour)" />
+        <NavigationProperty Name="reports" Type="Collection(Keg.Repository.Models.Report)" />
+        <NavigationProperty Name="friends" Type="Collection(Keg.Repository.Models.Friend)" />
+        <NavigationProperty Name="acceptedFriends" Type="Collection(Keg.Repository.Models.Friend)" />
+        <NavigationProperty Name="claims" Type="Collection(Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim)" />
+      </EntityType>
+      <EntityType Name="Report">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="sendToEmails" Type="Collection(Edm.String)" />
+        <Property Name="reportCadence" Type="Keg.Repository.Models.ReportCadence" Nullable="false" />
+        <Property Name="reportCadenceTimeStamp" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="sendToEmailsMetadata" Type="Edm.String" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="lastEdited" Type="Edm.DateTimeOffset" Nullable="false" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="lastEditedBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="locations" Type="Collection(Keg.Repository.Models.Location)" />
+        <NavigationProperty Name="devices" Type="Collection(Keg.Repository.Models.Device)" />
+        <NavigationProperty Name="taps" Type="Collection(Keg.Repository.Models.Tap)" />
+        <NavigationProperty Name="kegs" Type="Collection(Keg.Repository.Models.Keg)" />
+      </EntityType>
+      <EntityType Name="Device">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" />
+        <Property Name="lastEdited" Type="Edm.DateTimeOffset" />
+        <Property Name="deviceStatus" Type="Keg.Repository.Models.DeviceStatus" Nullable="false" />
+        <Property Name="name" Type="Edm.String" Nullable="false" />
+        <Property Name="deviceType" Type="Keg.Repository.Models.DeviceType" Nullable="false" />
+        <Property Name="particleId" Type="Edm.String" Nullable="false" />
+        <Property Name="temperature" Type="Edm.Single" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="lastEditedBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="organization" Type="Keg.Repository.Models.Organization" />
+        <NavigationProperty Name="location" Type="Keg.Repository.Models.Location" />
+        <NavigationProperty Name="permissions" Type="Collection(Keg.Repository.Models.Permission)" />
+        <NavigationProperty Name="taps" Type="Collection(Keg.Repository.Models.Tap)" />
+        <NavigationProperty Name="authorizations" Type="Collection(Keg.Repository.Models.Authorization)" />
+      </EntityType>
+      <EntityType Name="Keg">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="kegType" Type="Keg.Repository.Models.KegType" Nullable="false" />
+        <Property Name="tapDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="floatedDate" Type="Edm.DateTimeOffset" />
+        <Property Name="ounces" Type="Edm.Double" Nullable="false" />
+        <Property Name="maxOunces" Type="Edm.Double" Nullable="false" />
+        <Property Name="pulses" Type="Edm.Int64" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="location" Type="Keg.Repository.Models.Location" />
+        <NavigationProperty Name="tap" Type="Keg.Repository.Models.Tap" />
+        <NavigationProperty Name="organization" Type="Keg.Repository.Models.Organization" />
+        <NavigationProperty Name="beverage" Type="Keg.Repository.Models.Beverages.Beverage" />
+        <NavigationProperty Name="flowSensor" Type="Keg.Repository.Models.FlowSensor" />
+        <NavigationProperty Name="pours" Type="Collection(Keg.Repository.Models.Pour)" />
+      </EntityType>
+      <EntityType Name="Location">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" Nullable="false" />
+        <Property Name="locationType" Type="Keg.Repository.Models.LocationType" Nullable="false" />
+        <Property Name="summary" Type="Edm.String" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="street" Type="Edm.String" Nullable="false" />
+        <Property Name="suite" Type="Edm.String" />
+        <Property Name="city" Type="Edm.String" Nullable="false" />
+        <Property Name="state" Type="Edm.String" />
+        <Property Name="zipCode" Type="Edm.String" Nullable="false" />
+        <Property Name="geolocation" Type="System.Data.Entity.Spatial.DbGeography" />
+        <Property Name="timeZone" Type="Edm.String" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="organization" Type="Keg.Repository.Models.Organization" />
+        <NavigationProperty Name="permissions" Type="Collection(Keg.Repository.Models.Permission)" />
+        <NavigationProperty Name="devices" Type="Collection(Keg.Repository.Models.Device)" />
+        <NavigationProperty Name="taps" Type="Collection(Keg.Repository.Models.Tap)" />
+        <NavigationProperty Name="schedules" Type="Collection(Keg.Repository.Models.Schedule)" />
+        <NavigationProperty Name="kegs" Type="Collection(Keg.Repository.Models.Keg)" />
+        <NavigationProperty Name="pours" Type="Collection(Keg.Repository.Models.Pour)" />
+      </EntityType>
+      <EntityType Name="Schedule">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="days" Type="Keg.Repository.Models.Days" Nullable="false" />
+        <Property Name="startTime" Type="Edm.DateTimeOffset" />
+        <Property Name="endTime" Type="Edm.DateTimeOffset" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="editedDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="editedBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="tap" Type="Keg.Repository.Models.Tap" />
+        <NavigationProperty Name="location" Type="Keg.Repository.Models.Location" />
+        <NavigationProperty Name="accounts" Type="Collection(Keg.Repository.Models.Account)" />
+      </EntityType>
+      <EntityType Name="Pour">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="pulses" Type="Edm.Int64" Nullable="false" />
+        <Property Name="ounces" Type="Edm.Double" Nullable="false" />
+        <Property Name="pourDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="owner" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="organization" Type="Keg.Repository.Models.Organization" />
+        <NavigationProperty Name="location" Type="Keg.Repository.Models.Location" />
+        <NavigationProperty Name="tap" Type="Keg.Repository.Models.Tap" />
+        <NavigationProperty Name="keg" Type="Keg.Repository.Models.Keg" />
+        <NavigationProperty Name="beverage" Type="Keg.Repository.Models.Beverages.Beverage" />
+      </EntityType>
+      <EntityType Name="Tap">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="requiresPourPrivilege" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="hideLeaderboard" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="hideStats" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="disableBadges" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="device" Type="Keg.Repository.Models.Device" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="organization" Type="Keg.Repository.Models.Organization" />
+        <NavigationProperty Name="currentKeg" Type="Keg.Repository.Models.Keg" />
+        <NavigationProperty Name="permissions" Type="Collection(Keg.Repository.Models.Permission)" />
+        <NavigationProperty Name="schedules" Type="Collection(Keg.Repository.Models.Schedule)" />
+        <NavigationProperty Name="authorizations" Type="Collection(Keg.Repository.Models.Authorization)" />
+        <NavigationProperty Name="location" Type="Keg.Repository.Models.Location" />
+        <NavigationProperty Name="flowSensors" Type="Collection(Keg.Repository.Models.FlowSensor)" />
+        <NavigationProperty Name="kegs" Type="Collection(Keg.Repository.Models.Keg)" />
+        <NavigationProperty Name="pours" Type="Collection(Keg.Repository.Models.Pour)" />
+        <NavigationProperty Name="achievements" Type="Collection(Keg.Repository.Models.Achievement)" />
+      </EntityType>
+      <EntityType Name="FlowSensor">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="pulsesPerGallon" Type="Edm.Int32" Nullable="false" />
+        <Property Name="flowSensorType" Type="Keg.Repository.Models.FlowSensorType" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="tap" Type="Keg.Repository.Models.Tap" />
+      </EntityType>
+      <EntityType Name="Permission">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="expiresDate" Type="Edm.DateTimeOffset" />
+        <Property Name="startDate" Type="Edm.DateTimeOffset" />
+        <Property Name="invalid" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="permissionType" Type="Keg.Repository.Models.PermissionType" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="forUser" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="organization" Type="Keg.Repository.Models.Organization" />
+        <NavigationProperty Name="location" Type="Keg.Repository.Models.Location" />
+        <NavigationProperty Name="device" Type="Keg.Repository.Models.Device" />
+        <NavigationProperty Name="tap" Type="Keg.Repository.Models.Tap" />
+      </EntityType>
+      <EntityType Name="Achievement">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="achievementType" Type="Keg.Repository.Models.AchievementType" Nullable="false" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="keg" Type="Keg.Repository.Models.Keg" />
+        <NavigationProperty Name="owner" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="pour" Type="Keg.Repository.Models.Pour" />
+        <NavigationProperty Name="tap" Type="Keg.Repository.Models.Tap" />
+      </EntityType>
+      <EntityType Name="Authorization">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="token" Type="Edm.String" />
+        <Property Name="authorizationType" Type="Keg.Repository.Models.AuthorizationType" Nullable="false" />
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="expired" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="expiresDate" Type="Edm.DateTimeOffset" />
+        <Property Name="tapIDs" Type="Collection(Edm.Int32)" Nullable="false" />
+        <Property Name="deleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="owner" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="device" Type="Keg.Repository.Models.Device" />
+        <NavigationProperty Name="taps" Type="Collection(Keg.Repository.Models.Tap)" />
+      </EntityType>
+      <EntityType Name="Friend">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="createdDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="friendStatus" Type="Keg.Repository.Models.FriendStatus" Nullable="false" />
+        <Property Name="friendNumberMd5" Type="Edm.String" />
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="owningAccountNumberMd5" Type="Edm.String" />
+        <Property Name="updatedDate" Type="Edm.DateTimeOffset" />
+        <NavigationProperty Name="friendAccount" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="owningAccount" Type="Keg.Repository.Models.Account" />
+      </EntityType>
+      <EnumType Name="AchievementType">
+        <Member Name="Welcome" Value="1" />
+        <Member Name="BeerBeforeNoon" Value="100" />
+        <Member Name="FirstPourOfTheDay" Value="101" />
+        <Member Name="HatTrick" Value="102" />
+        <Member Name="LastPourOfTheNight" Value="103" />
+        <Member Name="PowerHour" Value="104" />
+        <Member Name="SevenDaysStraight" Value="105" />
+        <Member Name="BackOnTheBus" Value="106" />
+        <Member Name="BeerBuff" Value="200" />
+        <Member Name="BeerAuthority" Value="201" />
+        <Member Name="BeerAficionado" Value="202" />
+        <Member Name="BeerConnoisseur" Value="203" />
+        <Member Name="DrankAKeg" Value="301" />
+        <Member Name="DrankFiveKegs" Value="302" />
+        <Member Name="DrankTenKegs" Value="303" />
+        <Member Name="LightWeight" Value="304" />
+        <Member Name="Edward40Hands" Value="305" />
+        <Member Name="LastPourOfTheKeg" Value="400" />
+        <Member Name="KingOfTheKeg" Value="401" />
+      </EnumType>
+      <EnumType Name="LocationType">
+        <Member Name="Kegerator" Value="1" />
+        <Member Name="Bar" Value="2" />
+      </EnumType>
+      <EnumType Name="PermissionType">
+        <Member Name="Administrator" Value="0" />
+        <Member Name="Edit" Value="1" />
+        <Member Name="Read" Value="2" />
+        <Member Name="BannedFromTap" Value="6" />
+      </EnumType>
+      <EnumType Name="DeviceStatus">
+        <Member Name="Free" Value="0" />
+        <Member Name="Active" Value="1" />
+        <Member Name="Inactive" Value="2" />
+        <Member Name="Cleaning" Value="3" />
+      </EnumType>
+      <EnumType Name="DeviceType">
+        <Member Name="BrewskeyBox" Value="0" />
+        <Member Name="Onsite" Value="1" />
+      </EnumType>
+      <EnumType Name="Days" IsFlags="true">
+        <Member Name="None" Value="0" />
+        <Member Name="Monday" Value="1" />
+        <Member Name="Tuesday" Value="2" />
+        <Member Name="Wednesday" Value="4" />
+        <Member Name="Thursday" Value="8" />
+        <Member Name="Friday" Value="16" />
+        <Member Name="WeekDays" Value="31" />
+        <Member Name="Saturday" Value="32" />
+        <Member Name="Sunday" Value="64" />
+        <Member Name="All" Value="127" />
+      </EnumType>
+      <EnumType Name="AuthorizationType">
+        <Member Name="Pour" Value="0" />
+        <Member Name="Tag" Value="1" />
+        <Member Name="DeviceApi" Value="2" />
+      </EnumType>
+      <EnumType Name="FlowSensorType">
+        <Member Name="Custom" Value="0" />
+        <Member Name="FT330" Value="1" />
+        <Member Name="SwissFlowSF800" Value="2" />
+        <Member Name="Sea" Value="3" />
+        <Member Name="Titan" Value="4" />
+      </EnumType>
+      <EnumType Name="BeverageType">
+        <Member Name="Beer" Value="0" />
+        <Member Name="Coffee" Value="1" />
+        <Member Name="Soda" Value="2" />
+        <Member Name="Cider" Value="3" />
+      </EnumType>
+      <EnumType Name="KegType">
+        <Member Name="Mini" Value="0" />
+        <Member Name="Cornelius" Value="1" />
+        <Member Name="SixthBarrel" Value="2" />
+        <Member Name="QuarterBarrel" Value="3" />
+        <Member Name="SlimQuarter" Value="4" />
+        <Member Name="HalfBarrel" Value="5" />
+      </EnumType>
+      <EnumType Name="ReportCadence">
+        <Member Name="OneTime" Value="0" />
+        <Member Name="Daily" Value="1" />
+        <Member Name="Weekly" Value="2" />
+        <Member Name="Biweekly" Value="3" />
+        <Member Name="Monthly" Value="4" />
+      </EnumType>
+      <EnumType Name="FriendStatus">
+        <Member Name="Pending" Value="0" />
+        <Member Name="Approved" Value="1" />
+        <Member Name="Blocked" Value="2" />
+        <Member Name="Spam" Value="3" />
+      </EnumType>
+    </Schema>
+    <Schema Namespace="Keg.Web.Models.Locations" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <ComplexType Name="NearbyLocation">
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="summary" Type="Edm.String" />
+        <Property Name="taps" Type="Collection(Keg.Web.Models.Locations.NearbyTap)" />
+      </ComplexType>
+      <ComplexType Name="NearbyTap">
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="deviceID" Type="Edm.Int32" />
+        <Property Name="currentKeg" Type="Keg.Web.Models.Locations.NearbyCurrentKeg" />
+      </ComplexType>
+      <ComplexType Name="NearbyCurrentKeg">
+        <Property Name="id" Type="Edm.Int32" />
+        <Property Name="beverageName" Type="Edm.String" />
+        <Property Name="maxOunces" Type="Edm.Double" Nullable="false" />
+        <Property Name="ounces" Type="Edm.Double" Nullable="false" />
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="Keg.Repository.Models.Beverages" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityType Name="Beverage">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="servingTemperatureDisplay" Type="Edm.String" />
+        <Property Name="status" Type="Edm.String" />
+        <Property Name="srmId" Type="Edm.Int32" />
+        <Property Name="beerVariationId" Type="Edm.String" />
+        <Property Name="statusDisplay" Type="Edm.String" />
+        <Property Name="foodPairings" Type="Edm.String" />
+        <Property Name="updateDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="servingTemperature" Type="Edm.String" />
+        <Property Name="availableId" Type="Edm.Int32" />
+        <Property Name="abv" Type="Edm.Single" />
+        <Property Name="year" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="externalId" Type="Edm.String" />
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="originalGravity" Type="Edm.Single" />
+        <Property Name="styleId" Type="Edm.Int32" />
+        <Property Name="ibu" Type="Edm.Single" />
+        <Property Name="glasswareId" Type="Edm.Int32" />
+        <Property Name="isOrganic" Type="Edm.String" />
+        <Property Name="createDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="beverageType" Type="Keg.Repository.Models.BeverageType" Nullable="false" />
+        <Property Name="isDeleted" Type="Edm.Boolean" Nullable="false" />
+        <NavigationProperty Name="style" Type="Keg.Repository.Models.Beverages.Style">
+          <ReferentialConstraint Property="styleId" ReferencedProperty="id" />
+        </NavigationProperty>
+        <NavigationProperty Name="srm" Type="Keg.Repository.Models.Beverages.Srm">
+          <ReferentialConstraint Property="srmId" ReferencedProperty="id" />
+        </NavigationProperty>
+        <NavigationProperty Name="beerVariation" Type="Keg.Repository.Models.Beverages.BeerVariation">
+          <ReferentialConstraint Property="beerVariationId" ReferencedProperty="id" />
+        </NavigationProperty>
+        <NavigationProperty Name="availability" Type="Keg.Repository.Models.Beverages.Availability" />
+        <NavigationProperty Name="glass" Type="Keg.Repository.Models.Beverages.Glass" />
+        <NavigationProperty Name="createdBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="updatedBy" Type="Keg.Repository.Models.Account" />
+        <NavigationProperty Name="kegs" Type="Collection(Keg.Repository.Models.Keg)" />
+        <NavigationProperty Name="pours" Type="Collection(Keg.Repository.Models.Pour)" />
+      </EntityType>
+      <EntityType Name="BeerVariation">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.String" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="nameDisplay" Type="Edm.String" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="abv" Type="Edm.String" />
+        <Property Name="glasswareId" Type="Edm.Int32" />
+        <Property Name="availableId" Type="Edm.Int32" />
+        <Property Name="styleId" Type="Edm.Int32" />
+        <Property Name="isOrganic" Type="Edm.String" />
+        <Property Name="year" Type="Edm.Int32" Nullable="false" />
+        <Property Name="status" Type="Edm.String" />
+        <Property Name="statusDisplay" Type="Edm.String" />
+        <Property Name="createDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="updateDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <NavigationProperty Name="glass" Type="Keg.Repository.Models.Beverages.Glass" />
+        <NavigationProperty Name="availability" Type="Keg.Repository.Models.Beverages.Availability" />
+        <NavigationProperty Name="style" Type="Keg.Repository.Models.Beverages.Style">
+          <ReferentialConstraint Property="styleId" ReferencedProperty="id" />
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Availability">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="name" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="Glass">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="updateDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="createDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="Style">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="ibuMax" Type="Edm.Single" Nullable="false" />
+        <Property Name="srmMin" Type="Edm.Single" Nullable="false" />
+        <Property Name="srmMax" Type="Edm.Single" Nullable="false" />
+        <Property Name="ibuMin" Type="Edm.Single" Nullable="false" />
+        <Property Name="ogMax" Type="Edm.Single" Nullable="false" />
+        <Property Name="fgMin" Type="Edm.Single" Nullable="false" />
+        <Property Name="fgMax" Type="Edm.Single" Nullable="false" />
+        <Property Name="createDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="updateDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="abvMax" Type="Edm.Single" Nullable="false" />
+        <Property Name="ogMin" Type="Edm.Single" Nullable="false" />
+        <Property Name="abvMin" Type="Edm.Single" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="categoryId" Type="Edm.Int32" />
+        <NavigationProperty Name="category" Type="Keg.Repository.Models.Beverages.Category">
+          <ReferentialConstraint Property="categoryId" ReferencedProperty="id" />
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="Srm">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+        <Property Name="hex" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="Category">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="updateDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="description" Type="Edm.String" />
+        <Property Name="createDate" Type="Edm.DateTimeOffset" Nullable="false" />
+        <Property Name="name" Type="Edm.String" />
+      </EntityType>
+    </Schema>
+    <Schema Namespace="Keg.Web.Models.Chart" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <ComplexType Name="ChartData_1OfInt32">
+        <Property Name="key" Type="Edm.String" />
+        <Property Name="dataSet" Type="Collection(Keg.Web.Models.ChartPoint_1OfInt32)" />
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="System.Data.Entity.Spatial" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <ComplexType Name="DbGeography">
+        <Property Name="geography" Type="System.Data.Entity.Spatial.DbGeographyWellKnownValue" />
+      </ComplexType>
+      <ComplexType Name="DbGeographyWellKnownValue">
+        <Property Name="coordinateSystemId" Type="Edm.Int32" />
+        <Property Name="wellKnownText" Type="Edm.String" />
+        <Property Name="wellKnownBinary" Type="Edm.Binary" />
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="Microsoft.AspNet.Identity.EntityFramework" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <ComplexType Name="IdentityUserRole">
+        <Property Name="userId" Type="Edm.String" />
+        <Property Name="roleId" Type="Edm.String" />
+      </ComplexType>
+      <EntityType Name="IdentityUserClaim">
+        <Key>
+          <PropertyRef Name="id" />
+        </Key>
+        <Property Name="id" Type="Edm.Int32" Nullable="false" />
+        <Property Name="userId" Type="Edm.String" />
+        <Property Name="claimType" Type="Edm.String" />
+        <Property Name="claimValue" Type="Edm.String" />
+      </EntityType>
+      <ComplexType Name="IdentityUserLogin">
+        <Property Name="loginProvider" Type="Edm.String" />
+        <Property Name="providerKey" Type="Edm.String" />
+        <Property Name="userId" Type="Edm.String" />
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="Keg.Web.Models" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <ComplexType Name="ChartPoint_1OfInt32">
+        <Property Name="keys" Type="Collection(Edm.Int32)" Nullable="false" />
+        <Property Name="value" Type="Edm.Double" Nullable="false" />
+      </ComplexType>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <Function Name="Nearby" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Keg.Repository.Models.Location)" />
+        <ReturnType Type="Collection(Keg.Web.Models.Locations.NearbyLocation)" />
+      </Function>
+      <Action Name="Chart" IsBound="true">
+        <Parameter Name="bindingParameter" Type="Collection(Keg.Repository.Models.Pour)" />
+        <Parameter Name="beginDate" Type="Edm.DateTimeOffset" />
+        <Parameter Name="endDate" Type="Edm.DateTimeOffset" />
+        <ReturnType Type="Collection(Keg.Web.Models.Chart.ChartData_1OfInt32)" />
+      </Action>
+      <Action Name="chart">
+        <Parameter Name="chartType" Type="Edm.String" />
+        <Parameter Name="beginDate" Type="Edm.DateTimeOffset" />
+        <Parameter Name="endDate" Type="Edm.DateTimeOffset" />
+        <Parameter Name="ids" Type="Collection(Edm.Int32)" Nullable="false" />
+        <ReturnType Type="Collection(Keg.Web.Models.Chart.ChartData_1OfInt32)" />
+      </Action>
+      <EntityContainer Name="Container">
+        <EntitySet Name="organizations" EntityType="Keg.Repository.Models.Organization">
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="permissions" Target="permissions" />
+          <NavigationPropertyBinding Path="locations" Target="locations" />
+          <NavigationPropertyBinding Path="devices" Target="devices" />
+          <NavigationPropertyBinding Path="taps" Target="taps" />
+          <NavigationPropertyBinding Path="kegs" Target="kegs" />
+          <NavigationPropertyBinding Path="pours" Target="pours" />
+        </EntitySet>
+        <EntitySet Name="accounts" EntityType="Keg.Repository.Models.Account">
+          <NavigationPropertyBinding Path="permissions" Target="permissions" />
+          <NavigationPropertyBinding Path="validPermissions" Target="permissions" />
+          <NavigationPropertyBinding Path="pours" Target="pours" />
+          <NavigationPropertyBinding Path="reports" Target="reports" />
+        </EntitySet>
+        <EntitySet Name="reports" EntityType="Keg.Repository.Models.Report">
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="lastEditedBy" Target="accounts" />
+          <NavigationPropertyBinding Path="locations" Target="locations" />
+          <NavigationPropertyBinding Path="devices" Target="devices" />
+          <NavigationPropertyBinding Path="taps" Target="taps" />
+          <NavigationPropertyBinding Path="kegs" Target="kegs" />
+        </EntitySet>
+        <EntitySet Name="devices" EntityType="Keg.Repository.Models.Device">
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="lastEditedBy" Target="accounts" />
+          <NavigationPropertyBinding Path="organization" Target="organizations" />
+          <NavigationPropertyBinding Path="location" Target="locations" />
+          <NavigationPropertyBinding Path="permissions" Target="permissions" />
+          <NavigationPropertyBinding Path="taps" Target="taps" />
+        </EntitySet>
+        <EntitySet Name="kegs" EntityType="Keg.Repository.Models.Keg">
+          <NavigationPropertyBinding Path="location" Target="locations" />
+          <NavigationPropertyBinding Path="tap" Target="taps" />
+          <NavigationPropertyBinding Path="organization" Target="organizations" />
+          <NavigationPropertyBinding Path="beverage" Target="beverages" />
+          <NavigationPropertyBinding Path="flowSensor" Target="flow-sensors" />
+          <NavigationPropertyBinding Path="pours" Target="pours" />
+        </EntitySet>
+        <EntitySet Name="locations" EntityType="Keg.Repository.Models.Location">
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="organization" Target="organizations" />
+          <NavigationPropertyBinding Path="permissions" Target="permissions" />
+          <NavigationPropertyBinding Path="devices" Target="devices" />
+          <NavigationPropertyBinding Path="taps" Target="taps" />
+          <NavigationPropertyBinding Path="schedules" Target="schedules" />
+          <NavigationPropertyBinding Path="kegs" Target="kegs" />
+          <NavigationPropertyBinding Path="pours" Target="pours" />
+        </EntitySet>
+        <EntitySet Name="schedules" EntityType="Keg.Repository.Models.Schedule">
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="editedBy" Target="accounts" />
+          <NavigationPropertyBinding Path="tap" Target="taps" />
+          <NavigationPropertyBinding Path="location" Target="locations" />
+          <NavigationPropertyBinding Path="accounts" Target="accounts" />
+        </EntitySet>
+        <EntitySet Name="pours" EntityType="Keg.Repository.Models.Pour">
+          <NavigationPropertyBinding Path="owner" Target="accounts" />
+          <NavigationPropertyBinding Path="organization" Target="organizations" />
+          <NavigationPropertyBinding Path="location" Target="locations" />
+          <NavigationPropertyBinding Path="tap" Target="taps" />
+          <NavigationPropertyBinding Path="keg" Target="kegs" />
+          <NavigationPropertyBinding Path="beverage" Target="beverages" />
+        </EntitySet>
+        <EntitySet Name="taps" EntityType="Keg.Repository.Models.Tap">
+          <NavigationPropertyBinding Path="device" Target="devices" />
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="organization" Target="organizations" />
+          <NavigationPropertyBinding Path="currentKeg" Target="kegs" />
+          <NavigationPropertyBinding Path="permissions" Target="permissions" />
+          <NavigationPropertyBinding Path="schedules" Target="schedules" />
+          <NavigationPropertyBinding Path="location" Target="locations" />
+          <NavigationPropertyBinding Path="flowSensors" Target="flow-sensors" />
+          <NavigationPropertyBinding Path="kegs" Target="kegs" />
+          <NavigationPropertyBinding Path="pours" Target="pours" />
+        </EntitySet>
+        <EntitySet Name="flow-sensors" EntityType="Keg.Repository.Models.FlowSensor">
+          <NavigationPropertyBinding Path="tap" Target="taps" />
+        </EntitySet>
+        <EntitySet Name="permissions" EntityType="Keg.Repository.Models.Permission">
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="forUser" Target="accounts" />
+          <NavigationPropertyBinding Path="organization" Target="organizations" />
+          <NavigationPropertyBinding Path="location" Target="locations" />
+          <NavigationPropertyBinding Path="device" Target="devices" />
+          <NavigationPropertyBinding Path="tap" Target="taps" />
+        </EntitySet>
+        <EntitySet Name="beverages" EntityType="Keg.Repository.Models.Beverages.Beverage">
+          <NavigationPropertyBinding Path="style" Target="beverage-styles" />
+          <NavigationPropertyBinding Path="srm" Target="beverage-srms" />
+          <NavigationPropertyBinding Path="beerVariation" Target="beverage-variations" />
+          <NavigationPropertyBinding Path="availability" Target="beverage-availabilities" />
+          <NavigationPropertyBinding Path="glass" Target="beverage-glasses" />
+          <NavigationPropertyBinding Path="createdBy" Target="accounts" />
+          <NavigationPropertyBinding Path="updatedBy" Target="accounts" />
+          <NavigationPropertyBinding Path="kegs" Target="kegs" />
+          <NavigationPropertyBinding Path="pours" Target="pours" />
+        </EntitySet>
+        <EntitySet Name="beverage-variations" EntityType="Keg.Repository.Models.Beverages.BeerVariation">
+          <NavigationPropertyBinding Path="glass" Target="beverage-glasses" />
+          <NavigationPropertyBinding Path="availability" Target="beverage-availabilities" />
+          <NavigationPropertyBinding Path="style" Target="beverage-styles" />
+        </EntitySet>
+        <EntitySet Name="beverage-availabilities" EntityType="Keg.Repository.Models.Beverages.Availability" />
+        <EntitySet Name="beverage-glasses" EntityType="Keg.Repository.Models.Beverages.Glass" />
+        <EntitySet Name="beverage-styles" EntityType="Keg.Repository.Models.Beverages.Style" />
+        <EntitySet Name="beverage-srms" EntityType="Keg.Repository.Models.Beverages.Srm" />
+        <ActionImport Name="chart" Action="Default.chart" />
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

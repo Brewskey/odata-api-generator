@@ -1,0 +1,12 @@
+// @flow
+
+declare module 'odata_system_data_entity_spatial' {
+	declare export type DbGeography = {|
+		geography: DbGeographyWellKnownValue,
+	|};
+	declare export type DbGeographyWellKnownValue = {|
+		coordinateSystemId: number,
+		wellKnownBinary: string,
+		wellKnownText: string,
+	|};
+}

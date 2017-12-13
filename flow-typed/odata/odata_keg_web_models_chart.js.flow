@@ -1,0 +1,11 @@
+// @flow
+
+
+import type ChartPoint_1OfInt32 from 'Keg.Web.Models'
+
+declare module 'odata_keg_web_models_chart' {
+	declare export type ChartData_1OfInt32 = {|
+		dataSet: Array<ChartPoint_1OfInt32>,
+		key: string,
+	|};
+}

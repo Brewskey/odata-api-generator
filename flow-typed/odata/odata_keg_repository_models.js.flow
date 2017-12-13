@@ -1,0 +1,324 @@
+// @flow
+
+
+import type IdentityUserClaim from 'Microsoft.AspNet.Identity.EntityFramework'
+import type IdentityUserRole from 'Microsoft.AspNet.Identity.EntityFramework'
+import type IdentityUserLogin from 'Microsoft.AspNet.Identity.EntityFramework'
+import type Beverage from 'Keg.Repository.Models.Beverages'
+import type DbGeography from 'System.Data.Entity.Spatial'
+
+declare module 'odata_keg_repository_models' {
+	declare type AchievementType = {|
+		BackOnTheBus: 106;
+		BeerAficionado: 202;
+		BeerAuthority: 201;
+		BeerBeforeNoon: 100;
+		BeerBuff: 200;
+		BeerConnoisseur: 203;
+		DrankAKeg: 301;
+		DrankFiveKegs: 302;
+		DrankTenKegs: 303;
+		Edward40Hands: 305;
+		FirstPourOfTheDay: 101;
+		HatTrick: 102;
+		KingOfTheKeg: 401;
+		LastPourOfTheKeg: 400;
+		LastPourOfTheNight: 103;
+		LightWeight: 304;
+		PowerHour: 104;
+		SevenDaysStraight: 105;
+		Welcome: 1;
+	|};
+	declare type LocationType = {|
+		Bar: 2;
+		Kegerator: 1;
+	|};
+	declare type PermissionType = {|
+		Administrator: 0;
+		BannedFromTap: 6;
+		Edit: 1;
+		Read: 2;
+	|};
+	declare type DeviceStatus = {|
+		Active: 1;
+		Cleaning: 3;
+		Free: 0;
+		Inactive: 2;
+	|};
+	declare type DeviceType = {|
+		BrewskeyBox: 0;
+		Onsite: 1;
+	|};
+	declare type Days = {|
+		All: 127;
+		Friday: 16;
+		Monday: 1;
+		None: 0;
+		Saturday: 32;
+		Sunday: 64;
+		Thursday: 8;
+		Tuesday: 2;
+		Wednesday: 4;
+		WeekDays: 31;
+	|};
+	declare type AuthorizationType = {|
+		DeviceApi: 2;
+		Pour: 0;
+		Tag: 1;
+	|};
+	declare type FlowSensorType = {|
+		Custom: 0;
+		FT330: 1;
+		Sea: 3;
+		SwissFlowSF800: 2;
+		Titan: 4;
+	|};
+	declare type BeverageType = {|
+		Beer: 0;
+		Cider: 3;
+		Coffee: 1;
+		Soda: 2;
+	|};
+	declare type KegType = {|
+		Cornelius: 1;
+		HalfBarrel: 5;
+		Mini: 0;
+		QuarterBarrel: 3;
+		SixthBarrel: 2;
+		SlimQuarter: 4;
+	|};
+	declare type ReportCadence = {|
+		Biweekly: 3;
+		Daily: 1;
+		Monthly: 4;
+		OneTime: 0;
+		Weekly: 2;
+	|};
+	declare type FriendStatus = {|
+		Approved: 1;
+		Blocked: 2;
+		Pending: 0;
+		Spam: 3;
+	|};
+
+	declare export type Organization = {|
+		createdBy: Account,
+		createdDate: Date,
+		devices: Array<Device>,
+		id: number,
+		isDeleted: boolean,
+		kegs: Array<Keg>,
+		locations: Array<Location>,
+		name: string,
+		permissions: Array<Permission>,
+		pours: Array<Pour>,
+		taps: Array<Tap>,
+	|};
+	declare export type Account = {|
+		acceptedFriends: Array<Friend>,
+		accessFailedCount: number,
+		achievements: Array<Achievement>,
+		authorizatons: Array<Authorization>,
+		banned: boolean,
+		claims: Array<IdentityUserClaim>,
+		createdDate: Date,
+		email: string,
+		emailConfirmed: boolean,
+		friends: Array<Friend>,
+		fullName: string,
+		id: string,
+		lockoutEnabled: boolean,
+		lockoutEndDateUtc: Date,
+		logins: Array<IdentityUserLogin>,
+		permissions: Array<Permission>,
+		phoneNumber: string,
+		phoneNumberConfirmed: boolean,
+		pours: Array<Pour>,
+		reports: Array<Report>,
+		roles: Array<IdentityUserRole>,
+		twoFactorEnabled: boolean,
+		userName: string,
+		validPermissions: Array<Permission>,
+	|};
+	declare export type Report = {|
+		createdBy: Account,
+		createdDate: Date,
+		devices: Array<Device>,
+		id: number,
+		isDeleted: boolean,
+		kegs: Array<Keg>,
+		lastEdited: Date,
+		lastEditedBy: Account,
+		locations: Array<Location>,
+		name: string,
+		reportCadence: ReportCadence,
+		reportCadenceTimeStamp: Date,
+		sendToEmails: Array<string>,
+		sendToEmailsMetadata: string,
+		taps: Array<Tap>,
+	|};
+	declare export type Device = {|
+		authorizations: Array<Authorization>,
+		createdBy: Account,
+		createdDate: Date,
+		deviceStatus: DeviceStatus,
+		deviceType: DeviceType,
+		id: number,
+		isDeleted: boolean,
+		lastEdited: Date,
+		lastEditedBy: Account,
+		location: Location,
+		name: string,
+		organization: Organization,
+		particleId: string,
+		permissions: Array<Permission>,
+		taps: Array<Tap>,
+		temperature: number,
+	|};
+	declare export type Keg = {|
+		beverage: Beverage,
+		floatedDate: Date,
+		flowSensor: FlowSensor,
+		id: number,
+		isDeleted: boolean,
+		kegType: KegType,
+		location: Location,
+		maxOunces: number,
+		organization: Organization,
+		ounces: number,
+		pours: Array<Pour>,
+		pulses: number,
+		tap: Tap,
+		tapDate: Date,
+	|};
+	declare export type Location = {|
+		city: string,
+		createdBy: Account,
+		createdDate: Date,
+		description: string,
+		devices: Array<Device>,
+		geolocation: DbGeography,
+		id: number,
+		isDeleted: boolean,
+		kegs: Array<Keg>,
+		locationType: LocationType,
+		name: string,
+		organization: Organization,
+		permissions: Array<Permission>,
+		pours: Array<Pour>,
+		schedules: Array<Schedule>,
+		state: string,
+		street: string,
+		suite: string,
+		summary: string,
+		taps: Array<Tap>,
+		timeZone: string,
+		zipCode: string,
+	|};
+	declare export type Schedule = {|
+		accounts: Array<Account>,
+		createdBy: Account,
+		createdDate: Date,
+		days: Days,
+		editedBy: Account,
+		editedDate: Date,
+		endTime: Date,
+		id: number,
+		isDeleted: boolean,
+		location: Location,
+		name: string,
+		startTime: Date,
+		tap: Tap,
+	|};
+	declare export type Pour = {|
+		beverage: Beverage,
+		id: number,
+		isDeleted: boolean,
+		keg: Keg,
+		location: Location,
+		organization: Organization,
+		ounces: number,
+		owner: Account,
+		pourDate: Date,
+		pulses: number,
+		tap: Tap,
+	|};
+	declare export type Tap = {|
+		achievements: Array<Achievement>,
+		authorizations: Array<Authorization>,
+		createdBy: Account,
+		createdDate: Date,
+		currentKeg: Keg,
+		description: string,
+		device: Device,
+		disableBadges: boolean,
+		flowSensors: Array<FlowSensor>,
+		hideLeaderboard: boolean,
+		hideStats: boolean,
+		id: number,
+		isDeleted: boolean,
+		kegs: Array<Keg>,
+		location: Location,
+		name: string,
+		organization: Organization,
+		permissions: Array<Permission>,
+		pours: Array<Pour>,
+		requiresPourPrivilege: boolean,
+		schedules: Array<Schedule>,
+	|};
+	declare export type FlowSensor = {|
+		flowSensorType: FlowSensorType,
+		id: number,
+		isDeleted: boolean,
+		pulsesPerGallon: number,
+		tap: Tap,
+	|};
+	declare export type Permission = {|
+		createdBy: Account,
+		createdDate: Date,
+		device: Device,
+		expiresDate: Date,
+		forUser: Account,
+		id: number,
+		invalid: boolean,
+		isDeleted: boolean,
+		location: Location,
+		organization: Organization,
+		permissionType: PermissionType,
+		startDate: Date,
+		tap: Tap,
+	|};
+	declare export type Achievement = {|
+		achievementType: AchievementType,
+		createdDate: Date,
+		id: number,
+		keg: Keg,
+		owner: Account,
+		pour: Pour,
+		tap: Tap,
+	|};
+	declare export type Authorization = {|
+		authorizationType: AuthorizationType,
+		createdBy: Account,
+		createdDate: Date,
+		deleted: boolean,
+		device: Device,
+		expired: boolean,
+		expiresDate: Date,
+		id: number,
+		owner: Account,
+		tapIDs: Array<number>,
+		taps: Array<Tap>,
+		token: string,
+	|};
+	declare export type Friend = {|
+		createdDate: Date,
+		friendAccount: Account,
+		friendNumberMd5: string,
+		friendStatus: FriendStatus,
+		id: number,
+		owningAccount: Account,
+		owningAccountNumberMd5: string,
+		updatedDate: Date,
+	|};
+}

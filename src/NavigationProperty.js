@@ -1,20 +1,45 @@
 // @flow
 
-import type { ResolveEntity } from './types';
+import type { ExtractReturnType } from './types';
 import type EntityConfig from './util/EntityConfig';
 
-type NavigationPropertyType<TEntity> = ResolveEntity<TEntity> & TEntity;
+import nullthrows from 'nullthrows';
 
-function NavigationProperty<TEntity>(
-  entity: TEntity,
-): NavigationPropertyType<TEntity> {
-  const getter = (): Promise<TEntity> => {
-    return Promise.resolve(({}: any));
-  };
+export type NavigationProperty<
+  TObject,
+  TKeys: $Keys<TObject>,
+  TNavigationProperties = { [key: TKeys]: ExtractReturnType },
+> = {
+  ...$ObjMap<TNavigationProperties, ExtractReturnType>,
+  (): Promise<TObject>,
+};
 
-  Object.assign(getter, entity);
+type NavigationPropertiesBase<TObject: Object, TKeys: $Keys<TObject>> = {
+  [key: TKeys]: ExtractReturnType,
+};
 
-  return (getter: any);
+const entityMap: Map<string, NavigationProperty<*, *>> = new Map();
+
+export function getNavigationPropertyExtractor(
+  typeName: string,
+): ExtractReturnType {
+  return () => (nullthrows(entityMap.get(typeName)): any);
 }
 
-export default NavigationProperty;
+export default function $NavigationProperty<
+  TEntity: Object,
+>(navigationProperties: {
+  [key: $Keys<TEntity>]: ExtractReturnType,
+}): Class<TEntity> {
+  const EntityClass = function EntityType() {};
+
+  Object.keys(navigationProperties).forEach(key => {
+    Object.defineProperty(EntityClass.prototype, key, {
+      get() {
+        return navigationProperties[key]();
+      },
+    });
+  });
+
+  return ((EntityClass: any): Class<TEntity>);
+}

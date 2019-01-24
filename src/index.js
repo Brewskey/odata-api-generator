@@ -1,48 +1,127 @@
 // @flow
 
-//import type { ResolveEntity } from './types';
+//import type { NavigationProperty } from './NavigationProperty';
 
-import Entity from './Entity';
-import Queryable from './Queryable';
+//import Entity from './Entity';
+//import Queryable from './Queryable';
 //import EntityConfig from './util/EntityConfig';
 
-type NavType = {
+//import { getNavigationPropertyExtractor } from './NavigationProperty';
+
+import type { ExtractReturnType } from './types';
+
+type FooProps = {|
   id: number,
-  name: string,
-};
+|};
 
-type BaseTest = {
+type BarProps = {|
   id: number,
-  nav: NavType,
-};
+  value: string,
+|};
 
-const navItem: NavType = {
-  id: 123,
-  name: 'dfasd',
-};
+class EntityBase<TType: Object> {
+  constructor(navigationProperties: { [key: $Keys<TType>]: () => Class<*> }) {
+    Object.keys(navigationProperties).forEach(key => {
+      Object.defineProperty(this, key, {
+        get() {
+          const v = navigationProperties[key]();
+          return new v(this);
+        },
+        set(value) {
+          throw 'Not implemented';
+        },
+      });
+    });
+  }
+}
 
-const testItem = {
-  id: 1234,
-  nav: navItem,
-};
+class Entity<TType: Object, NavigationProps: Object> extends EntityBase<TType> {
+  _data: TType;
 
-class NavTypeEntity extends Entity<NavType> {
-  constructor() {
-    super({});
+  constructor(
+    defaultValues: TType,
+    navigationProperties: { [key: $Keys<NavigationProps>]: () => Class<*> },
+  ) {
+    super(navigationProperties);
+
+    this._data = defaultValues;
+    Object.keys(defaultValues).forEach(key => {
+      Object.defineProperty(this, key, {
+        get: () => this.get(key),
+        set: value => this.set(key, value),
+      });
+    });
   }
 
-  recursive = new NavTypeEntity();
-}
-class BaseTestEntity extends Entity<BaseTest> {
-  constructor() {
-    super({});
+  get<TKey: $Keys<TType>>(key: TKey): $ElementType<TType, TKey> {
+    return this._data[key];
   }
 
-  nav = new NavTypeEntity();
+  set<TKey: $Keys<TType>>(key: TKey, value: $ElementType<TType, TKey>): void {
+    console.log('key', key, value);
+    this._data[key] = value;
+  }
 }
 
-class API {
-  constructor(config: {}) {}
+class NavigationProperty<TType: Object> extends EntityBase<TType> {
+  _type: string;
+  _resolver: () => Promise<TType>;
 
-  navTypes = new Queryable({ endpoint: 'navTypes' });
+  constructor(
+    type: string,
+    resolver: () => Promise<TType>,
+    navigationProperties: { [key: $Keys<TType>]: () => Class<*> },
+  ) {
+    super(navigationProperties);
+    this._type = type;
+    this._resolver = resolver;
+  }
+
+  select(): Promise<TType> {
+    return this._resolver();
+  }
 }
+
+const FooNavigationProps: { [key: $Keys<Foo>]: () => Class<*> } = {
+  recursive: () => FooNavigationProperty,
+};
+const BarNavigationProps: { [key: $Keys<Bar>]: () => Class<*> } = {
+  foo: () => FooNavigationProperty,
+};
+
+class FooNavigationProperty extends NavigationProperty<Foo> {
+  constructor() {
+    super('Foo', () => Promise.resolve(new Foo()), FooNavigationProps);
+  }
+
+  recursive: FooNavigationProperty;
+}
+
+class Foo extends Entity<FooProps, typeof FooNavigationProps> {
+  constructor(fooProps?: FooProps) {
+    super({ id: 11 }, FooNavigationProps);
+  }
+
+  id: number;
+  recursive: FooNavigationProperty;
+}
+
+class Bar extends Entity<BarProps, typeof BarNavigationProps> {
+  foo: FooNavigationProperty;
+  id: number;
+  value: string;
+
+  constructor(props?: BarProps) {
+    super({ id: 0, value: '' }, BarNavigationProps);
+  }
+}
+
+(async () => {
+  const bar: Bar = new Bar({ id: 10, value: 'asdf' });
+  bar.value = 'asdfasdfasd';
+  const foo = await bar.foo.select();
+  console.log(foo);
+  foo.id = 10;
+  console.log(foo);
+  bar.foo = new FooNavigationProperty();
+})();
